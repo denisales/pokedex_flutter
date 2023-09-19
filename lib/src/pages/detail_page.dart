@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:pokedex/presentation/custom_icons.dart';
-import 'package:pokedex/widgets/my_app_bar.dart';
-import 'package:pokedex/widgets/my_chip.dart';
+import 'package:pokedex/src/widgets/my_app_bar.dart';
+import 'package:pokedex/src/widgets/my_card_pokemon_detail.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 class DetailPage extends StatefulWidget {
@@ -14,7 +13,7 @@ class DetailPage extends StatefulWidget {
 class _DetailPageState extends State<DetailPage>
     with SingleTickerProviderStateMixin {
   late double _position = 0;
-  late double _tabIndex = 0;
+  late double _tabAnimationValue = 0;
   late TabController _tabController;
 
   @override
@@ -29,13 +28,14 @@ class _DetailPageState extends State<DetailPage>
 
     _tabController.animation!.addListener(() {
       setState(() {
-        _tabIndex = _tabController.animation!.value;
+        _tabAnimationValue = _tabController.animation!.value;
       });
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    print("Build DetailPage");
     return Container(
       decoration: const BoxDecoration(
         color: Color.fromRGBO(139, 190, 138, 1),
@@ -94,11 +94,9 @@ class _DetailPageState extends State<DetailPage>
                 BoxShadow(color: Colors.transparent),
               ],
               onPanelSlide: (position) {
-                // ignore: avoid_print
                 setState(() {
                   _position = position;
                 });
-                // print(position);
               },
               borderRadius: const BorderRadius.vertical(
                 top: Radius.circular(30),
@@ -110,78 +108,8 @@ class _DetailPageState extends State<DetailPage>
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Opacity(
-                    opacity: 1 - _position,
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Container(
-                          decoration: const BoxDecoration(
-                            image: DecorationImage(
-                              image: AssetImage(
-                                  'assets/images/backgrounds/pokemon_detail_circle.png'),
-                              fit: BoxFit.fitWidth,
-                              alignment: FractionalOffset.topCenter,
-                            ),
-                          ),
-                          child: const Hero(
-                            tag: 'teste',
-                            child: Image(
-                              image: AssetImage('assets/images/pokemon.png'),
-                              width: 125,
-                              height: 125,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 20,
-                        ),
-                        const Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              '#001',
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w700,
-                                color: Color.fromRGBO(23, 23, 27, .6),
-                                // height: 1,
-                              ),
-                            ),
-                            Text(
-                              'Bulbasaur',
-                              style: TextStyle(
-                                fontSize: 32,
-                                fontWeight: FontWeight.w700,
-                                color: Colors.white,
-                                // height: 1,
-                              ),
-                            ),
-                            SizedBox(
-                              height: 5,
-                            ),
-                            Row(
-                              children: [
-                                MyChip(
-                                  text: 'Grass',
-                                  icon: CustomIcons.fairy,
-                                  color: Color.fromRGBO(165, 82, 204, 1),
-                                ),
-                                SizedBox(
-                                  width: 5,
-                                ),
-                                MyChip(
-                                  text: 'Grass',
-                                  icon: CustomIcons.fairy,
-                                  color: Color.fromRGBO(165, 82, 204, 1),
-                                ),
-                              ],
-                            )
-                          ],
-                        ),
-                      ],
-                    ),
-                  )
+                      opacity: 1 - _position,
+                      child: const MyCardPokemonDetail())
                 ],
               ),
               panel: Column(
@@ -195,8 +123,8 @@ class _DetailPageState extends State<DetailPage>
                         AnimatedAlign(
                           duration: const Duration(milliseconds: 200),
                           curve: Curves.linear,
-                          alignment:
-                              FractionalOffset(1 / (3 - 1) * _tabIndex, 0),
+                          alignment: FractionalOffset(
+                              1 / (3 - 1) * _tabAnimationValue, 0),
                           child: FractionallySizedBox(
                             widthFactor: 1 / 3,
                             child: Center(
@@ -243,10 +171,6 @@ class _DetailPageState extends State<DetailPage>
                         ),
                       ],
                     ),
-                    // const FractionallySizedBox(
-                    //   widthFactor: 1 / 3,
-                    //   child: Text('teste'),
-                    // ),
                   ),
                   Expanded(
                     child: Container(
@@ -257,8 +181,7 @@ class _DetailPageState extends State<DetailPage>
                             color: Colors.black.withOpacity(0.5),
                             spreadRadius: 2,
                             blurRadius: 8,
-                            offset: const Offset(
-                                0, 5), // changes position of shadow
+                            offset: const Offset(0, 5),
                           ),
                         ],
                         borderRadius: const BorderRadius.vertical(

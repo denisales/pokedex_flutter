@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:pokedex/presentation/custom_icons.dart';
+import 'package:pokedex/src/utils/custom_icons.dart';
 // import 'package:pokedex/presentation/custom_icons.dart';
-import 'package:pokedex/widgets/my_app_bar.dart';
-import 'package:pokedex/widgets/my_bottom_menu_scrollable_sheet.dart';
-import 'package:pokedex/widgets/my_card_pokemon.dart';
-import 'package:pokedex/widgets/my_text_field.dart';
+import 'package:pokedex/src/widgets/my_app_bar.dart';
+import 'package:pokedex/src/widgets/my_bottom_menu_scrollable_sheet.dart';
+import 'package:pokedex/src/widgets/my_card_pokemon.dart';
+import 'package:pokedex/src/widgets/my_text_field.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    print("Build HomePage");
     return Container(
       constraints: const BoxConstraints.expand(),
       decoration: const BoxDecoration(

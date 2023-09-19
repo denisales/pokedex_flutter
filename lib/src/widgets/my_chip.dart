@@ -14,6 +14,7 @@ class MyChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print("Build MyChip");
     return Container(
       height: 25,
       padding: const EdgeInsets.all(5),

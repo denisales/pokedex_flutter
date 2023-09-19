@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pokedex/widgets/my_app_bar.dart';
+import 'package:pokedex/src/widgets/my_app_bar.dart';
 
 class MyHomePage extends StatelessWidget {
   const MyHomePage({super.key});

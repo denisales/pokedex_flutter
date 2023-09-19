@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:pokedex/pages/detail_page.dart';
-import 'package:pokedex/presentation/custom_icons.dart';
-import 'package:pokedex/widgets/my_chip.dart';
+import 'package:pokedex/src/pages/detail_page.dart';
+import 'package:pokedex/src/utils/custom_icons.dart';
+import 'package:pokedex/src/widgets/my_chip.dart';
 
 class MyCardPokemon extends StatelessWidget {
   const MyCardPokemon({

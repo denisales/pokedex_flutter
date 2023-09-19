@@ -13,7 +13,7 @@ class DetailPage extends StatefulWidget {
 class _DetailPageState extends State<DetailPage>
     with SingleTickerProviderStateMixin {
   late double _position = 0;
-  late double _tabAnimationValue = 0;
+  late int _tabAnimationValue = 0;
   late TabController _tabController;
 
   @override
@@ -26,10 +26,12 @@ class _DetailPageState extends State<DetailPage>
       animationDuration: const Duration(milliseconds: 200),
     );
 
-    _tabController.animation!.addListener(() {
-      setState(() {
-        _tabAnimationValue = _tabController.animation!.value;
-      });
+    _tabController.addListener(() {
+      if (!_tabController.indexIsChanging) {
+        setState(() {
+          _tabAnimationValue = _tabController.index;
+        });
+      }
     });
   }
 

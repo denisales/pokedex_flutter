@@ -73,7 +73,16 @@ flutter:
     - assets/images/backgrounds/pokemon_detail_circle.png
     - assets/images/backgrounds/pokeball_tabs.png
     - assets/images/backgrounds/pokemon_detail_pattern.png
+    - assets/images/backgrounds/generation_card.png
     - assets/images/pokemon.png
+    - assets/images/generation_1.png
+    - assets/images/generation_2.png
+    - assets/images/generation_3.png
+    - assets/images/generation_4.png
+    - assets/images/generation_5.png
+    - assets/images/generation_6.png
+    - assets/images/generation_7.png
+    - assets/images/generation_8.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

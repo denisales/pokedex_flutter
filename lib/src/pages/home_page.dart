@@ -3,6 +3,7 @@ import 'package:pokedex/src/utils/custom_icons.dart';
 import 'package:pokedex/src/widgets/my_app_bar.dart';
 import 'package:pokedex/src/widgets/my_bottom_menu_scrollable_sheet.dart';
 import 'package:pokedex/src/widgets/my_button.dart';
+import 'package:pokedex/src/widgets/my_button_generation.dart';
 import 'package:pokedex/src/widgets/my_card_pokemon.dart';
 import 'package:pokedex/src/widgets/my_text_field.dart';
 
@@ -35,9 +36,9 @@ class HomePage extends StatelessWidget {
                   context: context,
                   isScrollControlled: true,
                   backgroundColor: Colors.transparent,
-                  builder: (context) => const MyBottomMenuScrollableSheet(
+                  builder: (context) => MyBottomMenuScrollableSheet(
                     children: [
-                      Text(
+                      const Text(
                         'Generations',
                         style: TextStyle(
                           fontSize: 26,
@@ -45,10 +46,10 @@ class HomePage extends StatelessWidget {
                           fontWeight: FontWeight.w700,
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 5,
                       ),
-                      Text(
+                      const Text(
                         'Use search for generations to explore your Pokémon!',
                         style: TextStyle(
                           fontSize: 16,
@@ -56,9 +57,33 @@ class HomePage extends StatelessWidget {
                           fontWeight: FontWeight.w400,
                         ),
                       ),
-                      // SizedBox(
-                      //   height: 1000,
-                      // ),
+                      const SizedBox(
+                        height: 35,
+                      ),
+                      GridView.count(
+                        shrinkWrap: true,
+                        crossAxisCount: 2,
+                        mainAxisSpacing: 14,
+                        crossAxisSpacing: 14,
+                        childAspectRatio: (1 / .8),
+                        scrollDirection: Axis.vertical,
+                        physics: const NeverScrollableScrollPhysics(),
+                        children: const [
+                          MyButtonGeneration(
+                            selected: true,
+                          ),
+                          MyButtonGeneration(),
+                          MyButtonGeneration(),
+                          MyButtonGeneration(),
+                          MyButtonGeneration(),
+                          MyButtonGeneration(),
+                          MyButtonGeneration(),
+                          MyButtonGeneration(),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 35,
+                      ),
                     ],
                   ),
                 );
@@ -212,10 +237,11 @@ class HomePage extends StatelessWidget {
               const SizedBox(
                 height: 20,
               ),
-              Expanded(
+              Flexible(
                 child: ListView(
+                  shrinkWrap: true,
                   padding:
-                      const EdgeInsets.only(left: 40, right: 40, bottom: 40),
+                      const EdgeInsets.only(left: 40, right: 40, bottom: 10),
                   children: const [
                     MyCardPokemon(
                       pokemonName: 'Bulbasaur',
@@ -224,7 +250,7 @@ class HomePage extends StatelessWidget {
                     ),
                   ],
                 ),
-              )
+              ),
             ],
           ),
         ),

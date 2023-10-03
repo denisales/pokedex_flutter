@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:pokedex/src/utils/custom_icons.dart';
-// import 'package:pokedex/presentation/custom_icons.dart';
 import 'package:pokedex/src/widgets/my_app_bar.dart';
 import 'package:pokedex/src/widgets/my_bottom_menu_scrollable_sheet.dart';
+import 'package:pokedex/src/widgets/my_button.dart';
 import 'package:pokedex/src/widgets/my_card_pokemon.dart';
 import 'package:pokedex/src/widgets/my_text_field.dart';
 
@@ -38,6 +38,110 @@ class HomePage extends StatelessWidget {
                   builder: (context) => const MyBottomMenuScrollableSheet(
                     children: [
                       Text(
+                        'Generations',
+                        style: TextStyle(
+                          fontSize: 26,
+                          color: Color.fromRGBO(23, 23, 27, 1),
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Text(
+                        'Use search for generations to explore your Pokémon!',
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Color.fromRGBO(116, 116, 118, 1),
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                      // SizedBox(
+                      //   height: 1000,
+                      // ),
+                    ],
+                  ),
+                );
+              },
+            ),
+            IconButton(
+              iconSize: 25,
+              color: const Color.fromRGBO(23, 23, 27, 1),
+              icon: const Icon(CustomIcons.sort),
+              onPressed: () {
+                showModalBottomSheet(
+                  context: context,
+                  isScrollControlled: true,
+                  backgroundColor: Colors.transparent,
+                  builder: (context) => const MyBottomMenuScrollableSheet(
+                    children: [
+                      Text(
+                        'Sort',
+                        style: TextStyle(
+                          fontSize: 26,
+                          color: Color.fromRGBO(23, 23, 27, 1),
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Text(
+                        'Sort Pokémons alphabetically or by National Pokédex number!',
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Color.fromRGBO(116, 116, 118, 1),
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 35,
+                      ),
+                      MyButton(
+                        text: 'Smallest number first',
+                        theme: MyButtonTheme.primary,
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      MyButton(
+                        text: 'Highest number first',
+                        theme: MyButtonTheme.secondary,
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      MyButton(
+                        text: 'A-Z',
+                        theme: MyButtonTheme.secondary,
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      MyButton(
+                        text: 'Z-A',
+                        theme: MyButtonTheme.secondary,
+                      ),
+                      SizedBox(
+                        height: 50,
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
+            IconButton(
+              iconSize: 25,
+              color: const Color.fromRGBO(23, 23, 27, 1),
+              icon: const Icon(CustomIcons.filter),
+              onPressed: () {
+                showModalBottomSheet(
+                  context: context,
+                  isScrollControlled: true,
+                  backgroundColor: Colors.transparent,
+                  builder: (context) => const MyBottomMenuScrollableSheet(
+                    children: [
+                      Text(
                         'Filters',
                         style: TextStyle(
                           fontSize: 26,
@@ -56,25 +160,13 @@ class HomePage extends StatelessWidget {
                           fontWeight: FontWeight.w400,
                         ),
                       ),
-                      SizedBox(
-                        height: 1000,
-                      ),
+                      // SizedBox(
+                      //   height: 1000,
+                      // ),
                     ],
                   ),
                 );
               },
-            ),
-            IconButton(
-              iconSize: 25,
-              color: const Color.fromRGBO(23, 23, 27, 1),
-              icon: const Icon(CustomIcons.sort),
-              onPressed: () {},
-            ),
-            IconButton(
-              iconSize: 25,
-              color: const Color.fromRGBO(23, 23, 27, 1),
-              icon: const Icon(CustomIcons.filter),
-              onPressed: () {},
             ),
             const SizedBox(width: 28),
           ],
@@ -130,31 +222,6 @@ class HomePage extends StatelessWidget {
                       pokemonNumber: '#001',
                       color: Color.fromRGBO(139, 190, 138, 1),
                     ),
-                    // MyCardPokemon(
-                    //   pokemonName: 'Bulbasaur',
-                    //   pokemonNumber: '#001',
-                    //   color: Color.fromRGBO(255, 167, 86, 1),
-                    // ),
-                    // MyCardPokemon(
-                    //   pokemonName: 'Bulbasaur',
-                    //   pokemonNumber: '#001',
-                    //   color: Color.fromRGBO(88, 171, 246, 1),
-                    // ),
-                    // MyCardPokemon(
-                    //   pokemonName: 'Bulbasaur',
-                    //   pokemonNumber: '#001',
-                    //   color: Color.fromRGBO(139, 190, 138, 1),
-                    // ),
-                    // MyCardPokemon(
-                    //   pokemonName: 'Bulbasaur',
-                    //   pokemonNumber: '#001',
-                    //   color: Color.fromRGBO(255, 167, 86, 1),
-                    // ),
-                    // MyCardPokemon(
-                    //   pokemonName: 'Bulbasaur',
-                    //   pokemonNumber: '#001',
-                    //   color: Color.fromRGBO(88, 171, 246, 1),
-                    // ),
                   ],
                 ),
               )

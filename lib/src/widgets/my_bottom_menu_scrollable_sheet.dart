@@ -18,11 +18,12 @@ class MyBottomMenuScrollableSheet extends StatelessWidget {
 
     return makeDismissible(
       child: DraggableScrollableSheet(
-        // expand: false,
-        initialChildSize: 0.46,
+        expand: false,
+        initialChildSize: 0.55,
         maxChildSize: 0.90,
-        minChildSize: 0.46,
+        minChildSize: 0.55,
         snap: true,
+        snapSizes: const [0.55],
         builder: (_, controller) => Column(
           children: [
             Container(
@@ -35,18 +36,19 @@ class MyBottomMenuScrollableSheet extends StatelessWidget {
               height: 6,
             ),
             Expanded(
-              child: Container(
-                decoration: const BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.vertical(
-                    top: Radius.circular(30),
-                  ),
+              child: ClipRRect(
+                borderRadius: const BorderRadius.vertical(
+                  top: Radius.circular(30),
                 ),
-                padding: const EdgeInsets.only(left: 40, right: 40, top: 30),
-                child: ListView(
-                  shrinkWrap: true,
-                  controller: controller,
-                  children: children,
+                child: Container(
+                  color: Colors.white,
+                  child: ListView(
+                    padding:
+                        const EdgeInsets.only(left: 40, right: 40, top: 30),
+                    shrinkWrap: true,
+                    controller: controller,
+                    children: children,
+                  ),
                 ),
               ),
             ),

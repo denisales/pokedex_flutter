@@ -11,7 +11,7 @@ class MyCardPokemon extends StatelessWidget {
     required this.color,
   });
 
-  final String pokemonNumber;
+  final int pokemonNumber;
   final String pokemonName;
   final Color color;
 
@@ -19,7 +19,7 @@ class MyCardPokemon extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.only(top: 34),
-      // height: 121,
+      height: 121,
       decoration: BoxDecoration(
         boxShadow: [
           BoxShadow(
@@ -56,7 +56,11 @@ class MyCardPokemon extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      pokemonNumber,
+                      pokemonNumber < 10
+                          ? '#00$pokemonNumber'
+                          : pokemonNumber < 100
+                              ? '#0$pokemonNumber'
+                              : '#$pokemonNumber',
                       style: const TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w700,
@@ -103,17 +107,17 @@ class MyCardPokemon extends StatelessWidget {
                 width: 130,
                 height: 0,
                 color: Colors.black,
-                child: const Stack(
+                child: Stack(
                   clipBehavior: Clip.none,
                   children: [
                     Positioned(
                       top: -80,
                       child: Hero(
-                        tag: 'teste',
-                        child: Image(
-                          image: AssetImage('assets/images/pokemon.png'),
-                          width: 130,
+                        tag: pokemonName,
+                        child: Image.network(
+                          'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/$pokemonNumber.png',
                           height: 130,
+                          width: 130,
                         ),
                       ),
                     ),

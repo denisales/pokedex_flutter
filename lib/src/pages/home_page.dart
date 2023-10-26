@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pokedex/src/repositories/pokemon_notifier.dart';
 import 'package:pokedex/src/utils/custom_icons.dart';
 import 'package:pokedex/src/widgets/my_app_bar.dart';
 import 'package:pokedex/src/widgets/my_bottom_menu_scrollable_sheet.dart';
@@ -6,13 +7,18 @@ import 'package:pokedex/src/widgets/my_button.dart';
 import 'package:pokedex/src/widgets/my_button_generation.dart';
 import 'package:pokedex/src/widgets/my_card_pokemon.dart';
 import 'package:pokedex/src/widgets/my_text_field.dart';
+import 'package:provider/provider.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
   @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  @override
   Widget build(BuildContext context) {
-    print("Build HomePage");
     return Container(
       constraints: const BoxConstraints.expand(),
       decoration: const BoxDecoration(
@@ -237,19 +243,26 @@ class HomePage extends StatelessWidget {
               const SizedBox(
                 height: 20,
               ),
-              Flexible(
-                child: ListView(
-                  shrinkWrap: true,
-                  padding:
-                      const EdgeInsets.only(left: 40, right: 40, bottom: 10),
-                  children: const [
-                    MyCardPokemon(
-                      pokemonName: 'Bulbasaur',
-                      pokemonNumber: '#001',
-                      color: Color.fromRGBO(139, 190, 138, 1),
+              Consumer<PokemonNotifier>(
+                builder: (context, pokemonNotifier, child) {
+                  final pokemons = pokemonNotifier.pokemons;
+                  return Flexible(
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      padding: const EdgeInsets.only(
+                          left: 40, right: 40, bottom: 10),
+                      itemCount: pokemons.length,
+                      itemBuilder: (context, index) {
+                        final pokemon = pokemons[index];
+                        return MyCardPokemon(
+                          pokemonName: pokemon.name,
+                          pokemonNumber: pokemon.id,
+                          color: const Color.fromRGBO(139, 190, 138, 1),
+                        );
+                      },
                     ),
-                  ],
-                ),
+                  );
+                },
               ),
             ],
           ),

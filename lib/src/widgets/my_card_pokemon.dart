@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:pokedex/src/models/pokemon_model.dart';
+import 'package:pokedex/src/models/types_model.dart';
 import 'package:pokedex/src/pages/detail_page.dart';
 import 'package:pokedex/src/utils/custom_icons.dart';
 import 'package:pokedex/src/widgets/my_chip.dart';
@@ -6,14 +8,208 @@ import 'package:pokedex/src/widgets/my_chip.dart';
 class MyCardPokemon extends StatelessWidget {
   const MyCardPokemon({
     super.key,
-    required this.pokemonNumber,
-    required this.pokemonName,
-    required this.color,
+    required this.pokemon,
   });
 
-  final int pokemonNumber;
-  final String pokemonName;
-  final Color color;
+  final Pokemon pokemon;
+
+  int getBackgroundTypeColor(PokemonTypes type) {
+    late int color;
+
+    switch (type.nameId) {
+      case 'fire':
+        color = 0xffFFA756;
+        break;
+      case 'bug':
+        color = 0xff8BD674;
+        break;
+      case 'dark':
+        color = 0xff6F6E78;
+        break;
+      case 'dragon':
+        color = 0xff7383B9;
+        break;
+      case 'electric':
+        color = 0xffF2CB55;
+        break;
+      case 'fairy':
+        color = 0xffEBA8C3;
+        break;
+      case 'fighting':
+        color = 0xffEB4971;
+        break;
+      case 'flying':
+        color = 0xff83A2E3;
+        break;
+      case 'ghost':
+        color = 0xff8571be;
+        break;
+      case 'ground':
+        color = 0xfff78551;
+        break;
+      case 'ice':
+        color = 0xff91d8df;
+        break;
+      case 'normal':
+        color = 0xffb5b9c4;
+        break;
+      case 'poison':
+        color = 0xff9f6e97;
+        break;
+      case 'psychic':
+        color = 0xffff6568;
+        break;
+      case 'rock':
+        color = 0xffd4c294;
+        break;
+      case 'steel':
+        color = 0xff4c91b2;
+        break;
+      case 'water':
+        color = 0xff58abf6;
+        break;
+      case 'grass':
+        color = 0xff88be8a;
+        break;
+      default:
+        color = 0xff000000;
+        break;
+    }
+
+    return color;
+  }
+
+  int getTypeColor(PokemonTypes type) {
+    late int color;
+
+    switch (type.nameId) {
+      case 'fire':
+        color = 0xfffd7d24;
+        break;
+      case 'bug':
+        color = 0xff8cb230;
+        break;
+      case 'dark':
+        color = 0xff58575f;
+        break;
+      case 'dragon':
+        color = 0xff0f6ac0;
+        break;
+      case 'electric':
+        color = 0xffeed535;
+        break;
+      case 'fairy':
+        color = 0xffed6ec7;
+        break;
+      case 'fighting':
+        color = 0xffd04164;
+        break;
+      case 'flying':
+        color = 0xff748fc9;
+        break;
+      case 'ghost':
+        color = 0xff556aae;
+        break;
+      case 'ground':
+        color = 0xffdd7748;
+        break;
+      case 'ice':
+        color = 0xff61c3c0;
+        break;
+      case 'normal':
+        color = 0xff9da0aa;
+        break;
+      case 'poison':
+        color = 0xffa552cc;
+        break;
+      case 'psychic':
+        color = 0xffea5d60;
+        break;
+      case 'rock':
+        color = 0xffbaab82;
+        break;
+      case 'steel':
+        color = 0xff417d91;
+        break;
+      case 'water':
+        color = 0xff4a90da;
+        break;
+      case 'grass':
+        color = 0xff62b957;
+        break;
+      default:
+        color = 0xff000000;
+        break;
+    }
+
+    return color;
+  }
+
+  IconData getTypeIcon(PokemonTypes type) {
+    late IconData icon;
+
+    switch (type.nameId) {
+      case 'fire':
+        icon = CustomIcons.fire;
+        break;
+      case 'bug':
+        icon = CustomIcons.fairy;
+        break;
+      case 'dark':
+        icon = CustomIcons.fairy;
+        break;
+      case 'dragon':
+        icon = CustomIcons.dragon;
+        break;
+      case 'electric':
+        icon = CustomIcons.electric;
+        break;
+      case 'fairy':
+        icon = CustomIcons.fairy;
+        break;
+      case 'fighting':
+        icon = CustomIcons.fighting;
+        break;
+      case 'flying':
+        icon = CustomIcons.flying;
+        break;
+      case 'ghost':
+        icon = CustomIcons.fairy;
+        break;
+      case 'ground':
+        icon = CustomIcons.ground;
+        break;
+      case 'ice':
+        icon = CustomIcons.ice;
+        break;
+      case 'normal':
+        icon = CustomIcons.normal;
+        break;
+      case 'poison':
+        icon = CustomIcons.poison;
+        break;
+      case 'psychic':
+        icon = CustomIcons.psychic;
+        break;
+      case 'rock':
+        icon = CustomIcons.rock;
+        break;
+      case 'steel':
+        icon = CustomIcons.steel;
+        break;
+      case 'water':
+        icon = CustomIcons.water;
+        break;
+      case 'grass':
+        icon = CustomIcons.grass;
+        break;
+      default:
+        icon = CustomIcons.fairy;
+        break;
+    }
+
+    return icon;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,13 +219,14 @@ class MyCardPokemon extends StatelessWidget {
       decoration: BoxDecoration(
         boxShadow: [
           BoxShadow(
-            color: color.withOpacity(.5),
+            color:
+                Color(getBackgroundTypeColor(pokemon.types[0])).withOpacity(.5),
             spreadRadius: 2,
             blurRadius: 8,
             offset: const Offset(0, 5), // changes position of shadow
           ),
         ],
-        color: color,
+        color: Color(getBackgroundTypeColor(pokemon.types[0])),
         borderRadius: BorderRadius.circular(10),
         image: const DecorationImage(
           image: AssetImage('assets/images/backgrounds/pokemon_card.png'),
@@ -42,7 +239,7 @@ class MyCardPokemon extends StatelessWidget {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => const DetailPage(),
+              builder: (context) => DetailPage(pokemon: pokemon),
             ),
           );
         },
@@ -56,11 +253,15 @@ class MyCardPokemon extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      pokemonNumber < 10
-                          ? '#00$pokemonNumber'
-                          : pokemonNumber < 100
-                              ? '#0$pokemonNumber'
-                              : '#$pokemonNumber',
+                      (() {
+                        if (pokemon.id < 10) {
+                          return '#00${pokemon.id}';
+                        } else if (pokemon.id < 100) {
+                          return '#0${pokemon.id}';
+                        } else {
+                          return '#${pokemon.id}';
+                        }
+                      })(),
                       style: const TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w700,
@@ -72,7 +273,9 @@ class MyCardPokemon extends StatelessWidget {
                       height: 10,
                     ),
                     Text(
-                      pokemonName,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                      pokemon.name,
                       style: const TextStyle(
                         fontSize: 26,
                         fontWeight: FontWeight.w700,
@@ -83,20 +286,18 @@ class MyCardPokemon extends StatelessWidget {
                     const SizedBox(
                       height: 8,
                     ),
-                    const Row(
+                    Row(
                       children: [
-                        MyChip(
-                          text: 'Grass',
-                          icon: CustomIcons.fairy,
-                          color: Color.fromRGBO(165, 82, 204, 1),
-                        ),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        MyChip(
-                          text: 'Grass',
-                          icon: CustomIcons.fairy,
-                          color: Color.fromRGBO(165, 82, 204, 1),
+                        ...pokemon.types.map(
+                          (type) => Container(
+                            padding: const EdgeInsets.only(right: 5),
+                            child: MyChip(
+                              key: Key(type.id.toString()),
+                              text: type.name,
+                              icon: getTypeIcon(type),
+                              color: Color(getTypeColor(type)),
+                            ),
+                          ),
                         ),
                       ],
                     )
@@ -113,9 +314,9 @@ class MyCardPokemon extends StatelessWidget {
                     Positioned(
                       top: -80,
                       child: Hero(
-                        tag: pokemonName,
+                        tag: pokemon.name,
                         child: Image.network(
-                          'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/$pokemonNumber.png',
+                          'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemon.id}.png',
                           height: 130,
                           width: 130,
                         ),

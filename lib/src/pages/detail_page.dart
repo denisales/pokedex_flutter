@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:pokedex/src/models/pokemon_model.dart';
+import 'package:pokedex/src/models/types_model.dart';
 import 'package:pokedex/src/widgets/my_app_bar.dart';
 import 'package:pokedex/src/widgets/my_card_pokemon_detail.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 class DetailPage extends StatefulWidget {
-  const DetailPage({super.key});
+  const DetailPage({super.key, required this.pokemon});
+
+  final Pokemon pokemon;
 
   @override
   State<DetailPage> createState() => _DetailPageState();
@@ -13,7 +17,7 @@ class DetailPage extends StatefulWidget {
 class _DetailPageState extends State<DetailPage>
     with SingleTickerProviderStateMixin {
   late double _position = 0;
-  late int _tabAnimationValue = 0;
+  late double _tabAnimationValue = 0.0;
   late TabController _tabController;
 
   @override
@@ -26,21 +30,85 @@ class _DetailPageState extends State<DetailPage>
       animationDuration: const Duration(milliseconds: 200),
     );
 
-    _tabController.addListener(() {
-      if (!_tabController.indexIsChanging) {
-        setState(() {
-          _tabAnimationValue = _tabController.index;
-        });
-      }
+    _tabController.animation!.addListener(() {
+      setState(() {
+        _tabAnimationValue = _tabController.animation!.value;
+      });
     });
+  }
+
+  int getBackgroundTypeColor(PokemonTypes type) {
+    late int color;
+
+    switch (type.nameId) {
+      case 'fire':
+        color = 0xffFFA756;
+        break;
+      case 'bug':
+        color = 0xff8BD674;
+        break;
+      case 'dark':
+        color = 0xff6F6E78;
+        break;
+      case 'dragon':
+        color = 0xff7383B9;
+        break;
+      case 'electric':
+        color = 0xffF2CB55;
+        break;
+      case 'fairy':
+        color = 0xffEBA8C3;
+        break;
+      case 'fighting':
+        color = 0xffEB4971;
+        break;
+      case 'flying':
+        color = 0xff83A2E3;
+        break;
+      case 'ghost':
+        color = 0xff8571be;
+        break;
+      case 'ground':
+        color = 0xfff78551;
+        break;
+      case 'ice':
+        color = 0xff91d8df;
+        break;
+      case 'normal':
+        color = 0xffb5b9c4;
+        break;
+      case 'poison':
+        color = 0xff9f6e97;
+        break;
+      case 'psychic':
+        color = 0xffff6568;
+        break;
+      case 'rock':
+        color = 0xffd4c294;
+        break;
+      case 'steel':
+        color = 0xff4c91b2;
+        break;
+      case 'water':
+        color = 0xff58abf6;
+        break;
+      case 'grass':
+        color = 0xff88be8a;
+        break;
+      default:
+        color = 0xff000000;
+        break;
+    }
+
+    return color;
   }
 
   @override
   Widget build(BuildContext context) {
     print("Build DetailPage");
     return Container(
-      decoration: const BoxDecoration(
-        color: Color.fromRGBO(139, 190, 138, 1),
+      decoration: BoxDecoration(
+        color: Color(getBackgroundTypeColor(widget.pokemon.types[0])),
       ),
       child: Stack(
         children: [
@@ -69,9 +137,9 @@ class _DetailPageState extends State<DetailPage>
               title: AnimatedOpacity(
                 opacity: _position == 1 ? 1 : 0,
                 duration: const Duration(milliseconds: 200),
-                child: const Text(
-                  'Bulbasaur',
-                  style: TextStyle(
+                child: Text(
+                  widget.pokemon.name,
+                  style: const TextStyle(
                     fontSize: 26,
                     fontWeight: FontWeight.w700,
                     color: Colors.white,
@@ -111,7 +179,7 @@ class _DetailPageState extends State<DetailPage>
                 children: [
                   Opacity(
                       opacity: 1 - _position,
-                      child: const MyCardPokemonDetail())
+                      child: MyCardPokemonDetail(pokemon: widget.pokemon))
                 ],
               ),
               panel: Column(

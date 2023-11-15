@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pokedex/src/repositories/pokemon_notifier.dart';
+import 'package:pokedex/src/repositories/pokemon_repository.dart';
 import 'package:pokedex/src/utils/custom_icons.dart';
 import 'package:pokedex/src/widgets/my_app_bar.dart';
 import 'package:pokedex/src/widgets/my_bottom_menu_scrollable_sheet.dart';
@@ -17,8 +17,13 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  late PokemonRepository pokemonRepository;
+
   @override
   Widget build(BuildContext context) {
+    pokemonRepository = context.watch<PokemonRepository>();
+    final pokemons = pokemonRepository.pokemons;
+
     return Container(
       constraints: const BoxConstraints.expand(),
       decoration: const BoxDecoration(
@@ -243,27 +248,18 @@ class _HomePageState extends State<HomePage> {
               const SizedBox(
                 height: 20,
               ),
-              Consumer<PokemonNotifier>(
-                builder: (context, pokemonNotifier, child) {
-                  final pokemons = pokemonNotifier.pokemons;
-                  return Flexible(
-                    child: ListView.builder(
-                      shrinkWrap: true,
-                      padding: const EdgeInsets.only(
-                          left: 40, right: 40, bottom: 10),
-                      itemCount: pokemons.length,
-                      itemBuilder: (context, index) {
-                        final pokemon = pokemons[index];
-                        return MyCardPokemon(
-                          pokemonName: pokemon.name,
-                          pokemonNumber: pokemon.id,
-                          color: const Color.fromRGBO(139, 190, 138, 1),
-                        );
-                      },
-                    ),
-                  );
-                },
-              ),
+              Flexible(
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  padding:
+                      const EdgeInsets.only(left: 40, right: 40, bottom: 10),
+                  itemCount: pokemons.length,
+                  itemBuilder: (context, index) {
+                    final pokemon = pokemons[index];
+                    return MyCardPokemon(pokemon: pokemon);
+                  },
+                ),
+              )
             ],
           ),
         ),

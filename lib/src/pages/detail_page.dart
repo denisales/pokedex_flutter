@@ -214,6 +214,7 @@ class _DetailPageState extends State<DetailPage>
                           ),
                         ),
                         TabBar(
+                          dividerHeight: 0,
                           controller: _tabController,
                           labelStyle: const TextStyle(
                             fontSize: 16,

@@ -23,6 +23,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
         statusBarColor: Colors.transparent,
         // statusBarIconBrightness: Brightness.light,
       ),
+      scrolledUnderElevation: 0,
       elevation: 0,
       toolbarHeight: appBarHeight,
       backgroundColor: Colors.transparent,

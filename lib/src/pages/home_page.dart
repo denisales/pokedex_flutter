@@ -26,6 +26,7 @@ class _HomePageState extends State<HomePage> {
   late OrderType _orderType = OrderType.asc;
   late OrderBy _orderBy = OrderBy.id;
   late int _generationId = 1;
+  late String _searchValue = '';
 
   changeGeneration(int generationId) {
     setState(() {
@@ -302,35 +303,40 @@ class _HomePageState extends State<HomePage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 40),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 40),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
+                    const Text(
                       'Pokédex',
                       style: TextStyle(
                           fontSize: 32,
                           fontWeight: FontWeight.w700,
                           color: Color.fromRGBO(23, 23, 27, 1)),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
-                    Text(
+                    const Text(
                       'Search for Pokémon by name or using the National Pokédex number.',
                       style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w400,
                           color: Color.fromRGBO(116, 116, 118, 1)),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 25,
                     ),
                     MyTextField(
                       hintText: 'What Pokémon are you looking for?',
                       prefixIcon: Icons.search,
+                      onChanged: (value) => {
+                        setState(() {
+                          _searchValue = value;
+                        })
+                      },
                     ),
                   ],
                 ),
@@ -344,6 +350,7 @@ class _HomePageState extends State<HomePage> {
                   orderBy: _orderBy,
                   orderType: _orderType,
                   generationId: _generationId,
+                  searchValue: _searchValue,
                 ),
               )
             ],
@@ -359,6 +366,7 @@ Widget _createPokemonList({
   OrderBy? orderBy,
   OrderType? orderType,
   int? generationId,
+  String? searchValue,
 }) {
   Map<String, dynamic> getFilter() {
     late final filter = {
@@ -376,6 +384,10 @@ Widget _createPokemonList({
       filter['generationId'] = generationId;
     }
 
+    if (searchValue != null) {
+      filter['searchName'] = searchValue;
+    }
+
     return filter;
   }
 
@@ -387,7 +399,10 @@ Widget _createPokemonList({
     ),
     builder: (result, {refetch, fetchMore}) {
       if (result.hasException) {
-        return Text(result.exception.toString());
+        return Container(
+          alignment: Alignment.center,
+          child: Text(result.exception.toString()),
+        );
       }
 
       if (result.isLoading) {
@@ -414,7 +429,10 @@ Widget _createPokemonList({
           .toList();
 
       if (pokemons.isEmpty) {
-        return const Text('No pokemons');
+        return Container(
+          alignment: Alignment.center,
+          child: const Text('No pokemons'),
+        );
       }
 
       return ListView.builder(

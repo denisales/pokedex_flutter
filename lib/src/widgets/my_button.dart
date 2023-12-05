@@ -22,10 +22,12 @@ class MyButton extends StatelessWidget {
     super.key,
     this.theme = MyButtonTheme.primary,
     required this.text,
+    this.onTap,
   });
 
   final MyButtonTheme? theme;
   final String text;
+  final Function()? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -36,9 +38,7 @@ class MyButton extends StatelessWidget {
       shadowColor: _shadowColor[theme],
       child: InkWell(
         borderRadius: BorderRadius.circular(10),
-        onTap: () {
-          print(text);
-        },
+        onTap: onTap,
         child: Container(
           padding: const EdgeInsets.all(20),
           decoration: const BoxDecoration(

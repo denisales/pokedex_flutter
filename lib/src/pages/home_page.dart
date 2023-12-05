@@ -1,5 +1,11 @@
+// ignore_for_file: unnecessary_null_comparison
+
 import 'package:flutter/material.dart';
-import 'package:pokedex/src/repositories/pokemon_repository.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:pokedex/src/enum/filter.dart';
+import 'package:pokedex/src/graphql/pokemons_querys.dart';
+import 'package:pokedex/src/models/pokemon_model.dart';
+// import 'package:pokedex/src/repositories/pokemon_repository.dart';
 import 'package:pokedex/src/utils/custom_icons.dart';
 import 'package:pokedex/src/widgets/my_app_bar.dart';
 import 'package:pokedex/src/widgets/my_bottom_menu_scrollable_sheet.dart';
@@ -7,7 +13,7 @@ import 'package:pokedex/src/widgets/my_button.dart';
 import 'package:pokedex/src/widgets/my_button_generation.dart';
 import 'package:pokedex/src/widgets/my_card_pokemon.dart';
 import 'package:pokedex/src/widgets/my_text_field.dart';
-import 'package:provider/provider.dart';
+// import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -17,13 +23,19 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  late PokemonRepository pokemonRepository;
+  late OrderType _orderType = OrderType.asc;
+  late OrderBy _orderBy = OrderBy.id;
+  late int _generationId = 1;
+
+  changeGeneration(int generationId) {
+    setState(() {
+      _generationId = generationId;
+      Navigator.pop(context);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    pokemonRepository = context.watch<PokemonRepository>();
-    final pokemons = pokemonRepository.pokemons;
-
     return Container(
       constraints: const BoxConstraints.expand(),
       decoration: const BoxDecoration(
@@ -79,17 +91,55 @@ class _HomePageState extends State<HomePage> {
                         childAspectRatio: (1 / .8),
                         scrollDirection: Axis.vertical,
                         physics: const NeverScrollableScrollPhysics(),
-                        children: const [
+                        children: [
                           MyButtonGeneration(
-                            selected: true,
+                            generationName: 'Generation I',
+                            selected: _generationId == 1,
+                            generationId: 1,
+                            onTap: () => changeGeneration(1),
                           ),
-                          MyButtonGeneration(),
-                          MyButtonGeneration(),
-                          MyButtonGeneration(),
-                          MyButtonGeneration(),
-                          MyButtonGeneration(),
-                          MyButtonGeneration(),
-                          MyButtonGeneration(),
+                          MyButtonGeneration(
+                            generationName: 'Generation II',
+                            selected: _generationId == 2,
+                            generationId: 2,
+                            onTap: () => changeGeneration(2),
+                          ),
+                          MyButtonGeneration(
+                            generationName: 'Generation III',
+                            selected: _generationId == 3,
+                            generationId: 3,
+                            onTap: () => changeGeneration(3),
+                          ),
+                          MyButtonGeneration(
+                            generationName: 'Generation IV',
+                            selected: _generationId == 4,
+                            generationId: 4,
+                            onTap: () => changeGeneration(4),
+                          ),
+                          MyButtonGeneration(
+                            generationName: 'Generation V',
+                            selected: _generationId == 5,
+                            generationId: 5,
+                            onTap: () => changeGeneration(5),
+                          ),
+                          MyButtonGeneration(
+                            generationName: 'Generation VI',
+                            selected: _generationId == 6,
+                            generationId: 6,
+                            onTap: () => changeGeneration(6),
+                          ),
+                          MyButtonGeneration(
+                            generationName: 'Generation VII',
+                            selected: _generationId == 7,
+                            generationId: 7,
+                            onTap: () => changeGeneration(7),
+                          ),
+                          MyButtonGeneration(
+                            generationName: 'Generation VIII',
+                            selected: _generationId == 8,
+                            generationId: 8,
+                            onTap: () => changeGeneration(8),
+                          ),
                         ],
                       ),
                       const SizedBox(
@@ -109,9 +159,9 @@ class _HomePageState extends State<HomePage> {
                   context: context,
                   isScrollControlled: true,
                   backgroundColor: Colors.transparent,
-                  builder: (context) => const MyBottomMenuScrollableSheet(
+                  builder: (context) => MyBottomMenuScrollableSheet(
                     children: [
-                      Text(
+                      const Text(
                         'Sort',
                         style: TextStyle(
                           fontSize: 26,
@@ -119,10 +169,10 @@ class _HomePageState extends State<HomePage> {
                           fontWeight: FontWeight.w700,
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 5,
                       ),
-                      Text(
+                      const Text(
                         'Sort Pokémons alphabetically or by National Pokédex number!',
                         style: TextStyle(
                           fontSize: 16,
@@ -130,35 +180,75 @@ class _HomePageState extends State<HomePage> {
                           fontWeight: FontWeight.w400,
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 35,
                       ),
                       MyButton(
                         text: 'Smallest number first',
-                        theme: MyButtonTheme.primary,
+                        theme: _orderBy == OrderBy.id &&
+                                _orderType == OrderType.asc
+                            ? MyButtonTheme.primary
+                            : MyButtonTheme.secondary,
+                        onTap: () {
+                          setState(() {
+                            _orderType = OrderType.asc;
+                            _orderBy = OrderBy.id;
+                          });
+                          Navigator.pop(context);
+                        },
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
                       MyButton(
                         text: 'Highest number first',
-                        theme: MyButtonTheme.secondary,
+                        theme: _orderBy == OrderBy.id &&
+                                _orderType == OrderType.desc
+                            ? MyButtonTheme.primary
+                            : MyButtonTheme.secondary,
+                        onTap: () {
+                          setState(() {
+                            _orderType = OrderType.desc;
+                            _orderBy = OrderBy.id;
+                          });
+                          Navigator.pop(context);
+                        },
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
                       MyButton(
                         text: 'A-Z',
-                        theme: MyButtonTheme.secondary,
+                        theme: _orderBy == OrderBy.name &&
+                                _orderType == OrderType.asc
+                            ? MyButtonTheme.primary
+                            : MyButtonTheme.secondary,
+                        onTap: () {
+                          setState(() {
+                            _orderType = OrderType.asc;
+                            _orderBy = OrderBy.name;
+                          });
+                          Navigator.pop(context);
+                        },
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
                       MyButton(
                         text: 'Z-A',
-                        theme: MyButtonTheme.secondary,
+                        theme: _orderBy == OrderBy.name &&
+                                _orderType == OrderType.desc
+                            ? MyButtonTheme.primary
+                            : MyButtonTheme.secondary,
+                        onTap: () {
+                          setState(() {
+                            _orderType = OrderType.desc;
+                            _orderBy = OrderBy.name;
+                          });
+                          Navigator.pop(context);
+                        },
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 50,
                       ),
                     ],
@@ -249,15 +339,11 @@ class _HomePageState extends State<HomePage> {
                 height: 20,
               ),
               Flexible(
-                child: ListView.builder(
-                  shrinkWrap: true,
-                  padding:
-                      const EdgeInsets.only(left: 40, right: 40, bottom: 10),
-                  itemCount: pokemons.length,
-                  itemBuilder: (context, index) {
-                    final pokemon = pokemons[index];
-                    return MyCardPokemon(pokemon: pokemon);
-                  },
+                child: _createPokemonList(
+                  context: context,
+                  orderBy: _orderBy,
+                  orderType: _orderType,
+                  generationId: _generationId,
                 ),
               )
             ],
@@ -266,4 +352,69 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
+}
+
+Widget _createPokemonList({
+  required BuildContext context,
+  OrderBy? orderBy,
+  OrderType? orderType,
+  int? generationId,
+}) {
+  Map<String, dynamic> getFilter() {
+    late final filter = {
+      'orderId': 'asc',
+      'generationId': 1,
+    };
+
+    if (orderBy == OrderBy.name) {
+      filter['orderName'] = orderType == OrderType.asc ? 'asc' : 'desc';
+    }
+    if (orderBy == OrderBy.id) {
+      filter['orderId'] = orderType == OrderType.asc ? 'asc' : 'desc';
+    }
+    if (generationId != null) {
+      filter['generationId'] = generationId;
+    }
+
+    return filter;
+  }
+
+  return Query(
+    options: QueryOptions(
+      document: gql(PokemonsQuerys.listAllPokemons),
+      variables: getFilter(),
+      fetchPolicy: FetchPolicy.cacheFirst,
+    ),
+    builder: (result, {refetch, fetchMore}) {
+      if (result.hasException) {
+        return Text(result.exception.toString());
+      }
+
+      if (result.isLoading) {
+        return const Text('Loading...');
+      }
+
+      List<Pokemon> pokemons = result.data!['pokemon_v2_pokemonspecies']
+          .map<Pokemon>((pokemon) => Pokemon.fromMap(pokemon))
+          .toList();
+
+      if (pokemons.isEmpty) {
+        return const Text('No pokemons');
+      }
+
+      return ListView.builder(
+        shrinkWrap: true,
+        padding: const EdgeInsets.only(left: 40, right: 40, bottom: 10),
+        itemCount: pokemons.length,
+        key: ObjectKey(pokemons[0]),
+        itemBuilder: (context, index) {
+          final pokemon = pokemons[index];
+          return MyCardPokemon(
+            key: Key(pokemon.id.toString()),
+            pokemon: pokemon,
+          );
+        },
+      );
+    },
+  );
 }

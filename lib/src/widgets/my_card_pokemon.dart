@@ -214,6 +214,7 @@ class MyCardPokemon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      key: key,
       margin: const EdgeInsets.only(top: 34),
       height: 121,
       decoration: BoxDecoration(

@@ -391,7 +391,22 @@ Widget _createPokemonList({
       }
 
       if (result.isLoading) {
-        return const Text('Loading...');
+        return ListView.builder(
+          shrinkWrap: true,
+          padding: const EdgeInsets.only(left: 40, right: 40, bottom: 10),
+          itemCount: 15,
+          physics: const NeverScrollableScrollPhysics(),
+          itemBuilder: (context, index) {
+            return Container(
+              height: 121,
+              margin: const EdgeInsets.only(top: 34),
+              decoration: BoxDecoration(
+                color: Colors.grey.withOpacity(0.3),
+                borderRadius: BorderRadius.circular(10),
+              ),
+            );
+          },
+        );
       }
 
       List<Pokemon> pokemons = result.data!['pokemon_v2_pokemonspecies']

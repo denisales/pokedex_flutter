@@ -310,6 +310,7 @@ class _HomePageState extends State<HomePage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Text(
+                      key: Key('title'),
                       'Pokédex',
                       style: TextStyle(
                           fontSize: 32,
@@ -398,6 +399,7 @@ Widget _createPokemonList({
       fetchPolicy: FetchPolicy.cacheFirst,
     ),
     builder: (result, {refetch, fetchMore}) {
+      print('Enviou request...');
       if (result.hasException) {
         return Container(
           alignment: Alignment.center,
@@ -406,6 +408,7 @@ Widget _createPokemonList({
       }
 
       if (result.isLoading) {
+        print('Carregando dados!!!');
         return ListView.builder(
           shrinkWrap: true,
           padding: const EdgeInsets.only(left: 40, right: 40, bottom: 10),
@@ -435,6 +438,9 @@ Widget _createPokemonList({
         );
       }
 
+      print(
+        'Trouxe Lista ${pokemons.length}',
+      );
       return ListView.builder(
         shrinkWrap: true,
         padding: const EdgeInsets.only(left: 40, right: 40, bottom: 10),

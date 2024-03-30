@@ -52,6 +52,7 @@ class _HomePageState extends State<HomePage> {
         appBar: MyAppBar(
           actions: [
             IconButton(
+              key: const Key('filter_generation'),
               iconSize: 25,
               color: const Color.fromRGBO(23, 23, 27, 1),
               icon: const Icon(CustomIcons.generation),
@@ -152,6 +153,7 @@ class _HomePageState extends State<HomePage> {
               },
             ),
             IconButton(
+              key: const Key('filter_sort'),
               iconSize: 25,
               color: const Color.fromRGBO(23, 23, 27, 1),
               icon: const Icon(CustomIcons.sort),
@@ -258,6 +260,7 @@ class _HomePageState extends State<HomePage> {
               },
             ),
             IconButton(
+              key: const Key('filter_button'),
               iconSize: 25,
               color: const Color.fromRGBO(23, 23, 27, 1),
               icon: const Icon(CustomIcons.filter),
